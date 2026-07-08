@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="480.0" y="34" text-anchor="middle" font-family="Arial" font-size="24" fill="#16232a">Decay Rate by Position Tier</text>
+<text x="178" y="116.8" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">striking</text>
+<rect x="190" y="70.0" width="730.0" height="72.0" fill="#d14b4b" rx="4"/>
+<text x="928.0" y="116.8" font-family="Arial" font-size="13" fill="#27343b">61</text>
+<text x="178" y="198.8" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">deep</text>
+<rect x="190" y="152.0" width="412.2" height="72.0" fill="#d14b4b" rx="4"/>
+<text x="610.2" y="198.8" font-family="Arial" font-size="13" fill="#27343b">34.4</text>
+<text x="178" y="280.8" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">page_1</text>
+<rect x="190" y="234.0" width="682.3" height="72.0" fill="#d14b4b" rx="4"/>
+<text x="880.3" y="280.8" font-family="Arial" font-size="13" fill="#27343b">57</text>
+<text x="178" y="362.8" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">page_3_5</text>
+<rect x="190" y="316.0" width="672.6" height="72.0" fill="#d14b4b" rx="4"/>
+<text x="870.6" y="362.8" font-family="Arial" font-size="13" fill="#27343b">56.2</text>
+<text x="178" y="444.8" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">top_3</text>
+<rect x="190" y="398.0" width="288.4" height="72.0" fill="#d14b4b" rx="4"/>
+<text x="486.4" y="444.8" font-family="Arial" font-size="13" fill="#27343b">24.1</text>
+</svg>

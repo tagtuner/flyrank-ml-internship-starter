@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="480.0" y="34" text-anchor="middle" font-family="Arial" font-size="24" fill="#16232a">Decay Rate by Word Count Tier</text>
+<text x="178" y="116.8" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">1000-2000</text>
+<rect x="190" y="70.0" width="679.5" height="72.0" fill="#32a852" rx="4"/>
+<text x="877.5" y="116.8" font-family="Arial" font-size="13" fill="#27343b">55.6</text>
+<text x="178" y="198.8" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">2000-3500</text>
+<rect x="190" y="152.0" width="719.7" height="72.0" fill="#32a852" rx="4"/>
+<text x="917.7" y="198.8" font-family="Arial" font-size="13" fill="#27343b">58.8</text>
+<text x="178" y="280.8" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">3500+</text>
+<rect x="190" y="234.0" width="730.0" height="72.0" fill="#32a852" rx="4"/>
+<text x="928.0" y="280.8" font-family="Arial" font-size="13" fill="#27343b">59.7</text>
+<text x="178" y="362.8" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">unknown</text>
+<rect x="190" y="316.0" width="569.2" height="72.0" fill="#32a852" rx="4"/>
+<text x="767.2" y="362.8" font-family="Arial" font-size="13" fill="#27343b">46.5</text>
+<text x="178" y="444.8" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">&lt;1000</text>
+<rect x="190" y="398.0" width="252.7" height="72.0" fill="#32a852" rx="4"/>
+<text x="450.7" y="444.8" font-family="Arial" font-size="13" fill="#27343b">20.7</text>
+</svg>
