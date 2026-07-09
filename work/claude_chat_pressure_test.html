@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Claude Project Chat - Sitemap Pressure-Test</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist+Mono&display=swap');
+    
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #191919;
+      color: #e3e3e2;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background-color: #1e1e1e;
+      border-right: 1px solid #2d2d2d;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .project-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .project-dot {
+      width: 8px;
+      height: 8px;
+      background: #cc785c;
+      border-radius: 50%;
+    }
+
+    .chat-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .chat-item {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #aaa;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chat-item.active {
+      background: #2a2a2a;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    /* Chat Area */
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: #191919;
+    }
+
+    .chat-header {
+      height: 60px;
+      border-bottom: 1px solid #2d2d2d;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      justify-content: space-between;
+    }
+
+    .chat-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+
+    .tutor-badge {
+      font-size: 0.75rem;
+      background: #cc785c33;
+      color: #ee9575;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px 10%;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      box-sizing: border-box;
+    }
+
+    .message {
+      display: flex;
+      flex-direction: column;
+      max-width: 800px;
+      width: 100%;
+      align-self: center;
+    }
+
+    .message.user {
+      align-items: flex-end;
+    }
+
+    .message.assistant {
+      align-items: flex-start;
+    }
+
+    .msg-sender {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #888;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .user .msg-sender {
+      color: #9f86fc;
+    }
+
+    .assistant .msg-sender {
+      color: #cc785c;
+    }
+
+    .msg-body {
+      padding: 18px 24px;
+      border-radius: 12px;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .user .msg-body {
+      background-color: #27203b;
+      border: 1px solid #3c325c;
+      color: #e5e0f7;
+    }
+
+    .assistant .msg-body {
+      background-color: #222222;
+      border: 1px solid #2d2d2d;
+      color: #e3e3e2;
+    }
+
+    .msg-body p {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .msg-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .msg-body ul, .msg-body ol {
+      padding-left: 20px;
+      margin: 12px 0;
+    }
+
+    .msg-body li {
+      margin-bottom: 8px;
+    }
+
+    .bold-text {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .highlight-red {
+      color: #ff6b6b;
+      font-weight: 600;
+    }
+
+    .highlight-green {
+      color: #51cf66;
+      font-weight: 600;
+    }
+
+    /* Input Box Mockup */
+    .chat-input-container {
+      padding: 24px 10%;
+      border-top: 1px solid #2d2d2d;
+      display: flex;
+      justify-content: center;
+    }
+
+    .chat-input-mock {
+      width: 100%;
+      max-width: 800px;
+      height: 52px;
+      background: #222;
+      border: 1px solid #2d2d2d;
+      border-radius: 26px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      box-sizing: border-box;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="project-title">
+      <div class="project-dot"></div>
+      <span>OmniTech Portfolio</span>
+    </div>
+    
+    <div class="chat-list">
+      <a href="#" class="chat-item active">Sitemap Pressure Test</a>
+      <a href="#" class="chat-item">Proof Statement Draft</a>
+      <a href="#" class="chat-item">PfSense Case Study Outline</a>
+    </div>
+  </aside>
+
+  <!-- Chat Area -->
+  <main class="chat-area">
+    <div class="chat-header">
+      <span class="chat-title">Sitemap Pressure Test</span>
+      <span class="tutor-badge">Claude Tutor Mode</span>
+    </div>
+
+    <div class="chat-messages">
+      <!-- User Message -->
+      <div class="message user">
+        <div class="msg-sender">You</div>
+        <div class="msg-body">
+          <p>This is my proof statement: "I design and audit zero-trust enterprise networks using PfSense firewalls for a Director of IT Operations at a scaling Managed Service Provider, so they will book a 15-minute network architecture review call."</p>
+          <p>This is my sitemap:<br>
+          1. Landing Page (`/`): Headline declaring the claim, metrics overview, CTA to book.<br>
+          2. Case Study (`/pfsense-audit`): Auditing and hardening a production PfSense ruleset, zero-trust validation.<br>
+          3. Profile (`/about`): Certifications, network architecture background, zero-trust philosophy.<br>
+          4. Booking Page (`/audit-booking`): Simple calendar booking interface.</p>
+          <p>Does this sitemap walk my one person from landing, to believing me, to taking my one action, and does it actually prove my claim? Tell me which pages earn their place, which are wasted, and what is missing. Be specific, not encouraging.</p>
+        </div>
+      </div>
+
+      <!-- Assistant Message -->
+      <div class="message assistant">
+        <div class="msg-sender">Claude (Tutor)</div>
+        <div class="msg-body">
+          <p>Here is my critical pressure-test of your proposed sitemap against your target claim and action:</p>
+          
+          <p><span class="bold-text">1. Pages That Earn Their Place:</span></p>
+          <ul>
+            <li><span class="highlight-green">`/pfsense-audit` (Case Study)</span>: This is the core proof. An MSP Director of IT Operations faces real anxiety over client downtime and firewall config leaks. Seeing a live audit walkthrough showing how you refactor rules, prune duplicate ACLs, and verify results via scanning directly addresses their problem.</li>
+            <li><span class="highlight-green">`/audit-booking`</span>: Essential. It provides a direct, friction-free path to take your one action.</li>
+          </ul>
+
+          <p><span class="bold-text">2. Wasted Pages (Revise):</span></p>
+          <ul>
+            <li><span class="highlight-red">`/about`</span>: Wasted. An MSP Director doesn't care about a standalone page describing your generic network philosophy or career journey. They care about tool-specific metrics and execution depth. Keep them focused on proof. <span class="bold-text">Action: Delete this page</span> and merge certifications/creds into the footer of your landing page and case study.</li>
+            <li><span class="highlight-red">`/` (Landing Page Layout)</span>: The current description is weak. If the landing page is just a claim and high-level metrics, it's decoration. You must hook them immediately.</li>
+          </ul>
+
+          <p><span class="bold-text">3. What is Missing:</span></p>
+          <ul>
+            <li><span class="bold-text">Immediate Technical Hook</span>: On the landing page, add a live visual mock representing a PfSense log analyzer or a ruleset compliance checker widget. This demonstrates that you don't just write configurations, but build utilities to analyze them.</li>
+          </ul>
+
+          <p><span class="bold-text">Recommendation:</span> Merge `/about` into the landing footer, remove it from the sitemap, and focus your design resources on making the `/pfsense-audit` case study visually compelling. Add an active rule analyzer widget to the landing page to hook the reviewer within 5 seconds.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Box -->
+    <div class="chat-input-container">
+      <div class="chat-input-mock">Reply to Claude...</div>
+    </div>
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sitemap whiteboard sketch</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+    
+    body {
+      background-color: #f7f6f0;
+      background-image: radial-gradient(#d3d1c4 1px, transparent 1px);
+      background-size: 20px 20px;
+      font-family: 'Architects Daughter', cursive, sans-serif;
+      color: #2b2b2b;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-bottom: 3px double #2b2b2b;
+      padding-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    .board {
+      position: relative;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 900px;
+      margin-top: 20px;
+    }
+
+    .node {
+      background: #ffffff;
+      border: 3px solid #2b2b2b;
+      padding: 20px;
+      width: 220px;
+      min-height: 200px;
+      box-shadow: 5px 5px 0px #2b2b2b;
+      position: relative;
+      z-index: 10;
+      /* CSS Sketchy Border Effect */
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      transition: transform 0.2s ease;
+    }
+
+    .node:hover {
+      transform: translateY(-5px);
+    }
+
+    .node h2 {
+      font-size: 1.4rem;
+      margin-top: 0;
+      border-bottom: 2px dashed #2b2b2b;
+      padding-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .node ul {
+      padding-left: 20px;
+      margin: 10px 0 0 0;
+    }
+
+    .node li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .cta {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 5px 10px;
+      border: 2px solid #c93b2b;
+      color: #c93b2b;
+      text-transform: uppercase;
+      font-weight: bold;
+      border-radius: 5px 12px 3px 8px/8px 3px 12px 5px;
+      font-size: 0.85rem;
+    }
+
+    .postit {
+      position: absolute;
+      background: #fdf5a6;
+      border: 1px solid #e6db55;
+      padding: 10px;
+      width: 160px;
+      box-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+      transform: rotate(-3deg);
+      font-size: 0.85rem;
+      color: #4a4209;
+      border-radius: 3px 15px 5px 20px/10px 5px 15px 8px;
+    }
+
+    #postit1 {
+      top: -20px;
+      left: -80px;
+      transform: rotate(-7deg);
+    }
+
+    #postit2 {
+      bottom: -60px;
+      right: -30px;
+      transform: rotate(5deg);
+    }
+
+    .svg-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .claim-box {
+      margin-bottom: 50px;
+      border: 3px dashed #4a6fa5;
+      padding: 15px 30px;
+      max-width: 800px;
+      background: #f0f4f8;
+      border-radius: 12px 255px 15px 225px/15px 12px 255px 15px;
+      text-align: center;
+    }
+
+    .claim-box p {
+      margin: 5px 0;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .claim-box strong {
+      color: #4a6fa5;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sitemap Whiteboard Sketch</h1>
+  <div class="subtitle">OmniTech Resilient Network Portfolio Mapping</div>
+
+  <div class="claim-box">
+    <p><strong>Audience (The Person):</strong> Director of IT Operations at a scaling Managed Service Provider (MSP)</p>
+    <p><strong>Core Claim:</strong> I design and audit zero-trust enterprise networks using PfSense firewalls.</p>
+    <p><strong>Target Action:</strong> Book a 15-minute network architecture review call.</p>
+  </div>
+
+  <div class="board">
+    <!-- SVG Connector Lines -->
+    <svg class="svg-lines" viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Marker for arrowhead -->
+        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#2b2b2b" />
+        </marker>
+      </defs>
+      <!-- Landing to Case Study -->
+      <path d="M 280 120 Q 350 90 420 120" fill="none" stroke="#2b2b2b" stroke-width="3" stroke-dasharray="2 3" marker-end="url(#arrow)" />
+      <!-- Case Study to Booking -->
+      <path d="M 660 120 Q 730 150 770 120" fill="none" stroke="#2b2b2b" stroke-width="3" stroke-dasharray="2 3" marker-end="url(#arrow)" />
+      <!-- Landing directly to Booking (underneath) -->
+      <path d="M 280 160 Q 520 280 770 160" fill="none" stroke="#c93b2b" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow)" />
+    </svg>
+
+    <!-- Node 1: Landing Page -->
+    <div class="node" style="margin-left: 20px;">
+      <h2>1. Landing Page (/)</h2>
+      <ul>
+        <li>Hero stating PfSense zero-trust claim</li>
+        <li>Key metrics card (e.g. state-table load drops)</li>
+        <li>Methodology & tool stack highlights</li>
+        <li>Footer details (active certs/background)</li>
+      </ul>
+      <div class="cta" style="border-color: #2b2b2b; color: #2b2b2b;">Direct CTA</div>
+      
+      <div class="postit" id="postit1">
+        No separate About page! Merged credentials into footer to keep sitemap lean.
+      </div>
+    </div>
+
+    <!-- Node 2: Case Study -->
+    <div class="node">
+      <h2>2. Case Study (/pfsense-audit)</h2>
+      <ul>
+        <li>Walkthrough of production rules audit</li>
+        <li>Purging duplicate & stale rules</li>
+        <li>Hardening NAT port forwards</li>
+        <li>nmap external security verification</li>
+      </ul>
+      <div class="cta">Review Call CTA</div>
+    </div>
+
+    <!-- Node 3: Booking Page -->
+    <div class="node" style="margin-right: 20px;">
+      <h2>3. Booking (/audit-booking)</h2>
+      <ul>
+        <li>Simple calendar scheduler</li>
+        <li>15-minute slot selection</li>
+        <li>Basic details form (MSP Name, Current Setup)</li>
+      </ul>
+      <div class="cta" style="background: #c93b2b; color: #fff;">Confirm Action</div>
+      
+      <div class="postit" id="postit2">
+        Single action target: Book network audit.
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
