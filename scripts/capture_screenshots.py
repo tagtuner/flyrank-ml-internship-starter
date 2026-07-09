@@ -14,7 +14,8 @@ async def main():
         ("claude_project_v2_mockup.html", "claude_project_v2_config.png", (1200, 800)),
         ("claude_chat_pressure_test.html", "claude_pressure_test_chat.png", (1200, 800)),
         ("identity_kit.html", "identity_kit.png", (920, 850)),
-        ("../index.html", "empty_but_live.png", (920, 720))
+        ("../index.html", "empty_but_live.png", (920, 720)),
+        ("mcp_showcase_mockup.html", "mcp_evidence.png", (920, 900))
     ]
     
     async with async_playwright() as p:
