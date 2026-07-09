@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pfsense>
+  <filter>
+    <!-- Rule 10: PASS HTTP WAN traffic to HTTP Server -->
+    <rule>
+      <id>10</id>
+      <interface>wan</interface>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.100</address>
+        <port>80</port>
+      </destination>
+      <descr>Pass HTTP WAN Traffic</descr>
+    </rule>
+    
+    <!-- Rule 11: Duplicate HTTP WAN traffic rule (Redundant entry) -->
+    <rule>
+      <id>11</id>
+      <interface>wan</interface>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.100</address>
+        <port>80</port>
+      </destination>
+      <descr>Pruning Target - Duplicate WAN Access</descr>
+    </rule>
+
+    <!-- Rule 15: BLOCK SSH WAN access from any public host -->
+    <rule>
+      <id>15</id>
+      <interface>wan</interface>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <any></any>
+        <port>22</port>
+      </destination>
+      <descr>Block Public SSH</descr>
+    </rule>
+
+    <!-- Rule 16: PASS SSH WAN traffic (Conflicting - Overridden by Rule 15 block) -->
+    <rule>
+      <id>16</id>
+      <interface>wan</interface>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.100</address>
+        <port>22</port>
+      </destination>
+      <descr>Pruning Target - Inactive SSH Pass</descr>
+    </rule>
+
+    <!-- Rule 20: PASS Local DNS lookup UDP Lan redirect -->
+    <rule>
+      <id>20</id>
+      <interface>lan</interface>
+      <protocol>udp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.1</address>
+        <port>53</port>
+      </destination>
+      <descr>LAN DNS Pass</descr>
+    </rule>
+
+    <!-- Rule 21: Duplicate LAN DNS lookup (Redundant redirection) -->
+    <rule>
+      <id>21</id>
+      <interface>lan</interface>
+      <protocol>udp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.1</address>
+        <port>53</port>
+      </destination>
+      <descr>Pruning Target - Duplicate LAN DNS</descr>
+    </rule>
+
+    <!-- Rule 40: Exposed public PostgreSQL port (Security risk exposure) -->
+    <rule>
+      <id>40</id>
+      <interface>wan</interface>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.200</address>
+        <port>5432</port>
+      </destination>
+      <descr>WAN SQL Access</descr>
+    </rule>
+  </filter>
+</pfsense>

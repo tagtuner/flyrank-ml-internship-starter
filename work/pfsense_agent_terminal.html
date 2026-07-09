@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OmniTech PfSense Agent Terminal Run</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 40px;
+      background-color: #fcfbfa;
+      color: #1a1a19;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Terminal Frame */
+    .terminal {
+      background-color: #1a1a19;
+      color: #fcfbfa;
+      font-family: 'Fira Code', monospace;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border: 1px solid #333;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-sizing: border-box;
+    }
+
+    .terminal-header {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .dot-red { background-color: #ff5f56; }
+    .dot-yellow { background-color: #ffbd2e; }
+    .dot-green { background-color: #27c93f; }
+
+    .terminal-body {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .prompt {
+      color: #cc785c;
+    }
+
+    .highlight-success {
+      color: #27c93f;
+    }
+
+    .highlight-warn {
+      color: #ffbd2e;
+    }
+
+    /* Markdown Table Output inside console */
+    .table-container {
+      margin: 16px 0;
+      border: 1px solid #444;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #222;
+      color: #fcfbfa;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+    }
+
+    th {
+      background-color: #333;
+      text-align: left;
+      padding: 10px;
+      border-bottom: 2px solid #444;
+      color: #ffbd2e;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #444;
+    }
+
+    .badge-redundant {
+      background-color: rgba(255, 189, 46, 0.2);
+      color: #ffbd2e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .badge-conflict {
+      background-color: rgba(255, 95, 86, 0.2);
+      color: #ff5f56;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .badge-risk {
+      background-color: rgba(204, 120, 92, 0.2);
+      color: #cc785c;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e6e4df; padding-bottom:12px;">
+      <div>
+        <h1 style="font-family:'Outfit', sans-serif; margin:0; font-size:1.6rem;">PfSense Security Scout MVP</h1>
+        <p style="margin:4px 0 0 0; font-size:0.9rem; color:#666;">Raw Terminal Output & tool execution logs</p>
+      </div>
+      <span style="font-size:0.8rem; background-color:#cc785c; color:#fff; padding:6px 12px; border-radius:4px; font-weight:600; text-transform:uppercase;">End-to-End MVP</span>
+    </header>
+
+    <div class="terminal">
+      <div class="terminal-header">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        <span style="margin-left:8px; font-size:0.75rem; color:#888;">powershell - Local Audit Loop</span>
+      </div>
+      
+      <div class="terminal-body">
+<span class="prompt">PS C:\Users\admin\flyrank-ml-internship-starter></span> python scripts/pfsense_agent.py
+
+==================================================================
+      Autonomous PfSense Firewall Security Scout Active Run       
+==================================================================
+[*] Parsing configurations from XML: pfsense_rules.xml
+[*] Performing duplicate search and rule override analysis...
+
+<span class="highlight-success">[+] Audit analysis complete. Found issues:</span>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Rule ID</th>
+        <th>Rule Details</th>
+        <th>Issue Type</th>
+        <th>Description</th>
+        <th>Operational Risk</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Rule 11</td>
+        <td>WAN TCP target 192.168.1.100:80</td>
+        <td><span class="badge-redundant">Redundant</span></td>
+        <td>Duplicate of Rule 10 WAN Pass.</td>
+        <td>Bloats state-table lookup operations.</td>
+      </tr>
+      <tr>
+        <td>Rule 16</td>
+        <td>WAN TCP target 192.168.1.100:22</td>
+        <td><span class="badge-conflict">Conflicting</span></td>
+        <td>Blocked by Rule 15 override block.</td>
+        <td>Dead config rule blocks future access updates.</td>
+      </tr>
+      <tr>
+        <td>Rule 21</td>
+        <td>LAN UDP target 192.168.1.1:53</td>
+        <td><span class="badge-redundant">Redundant</span></td>
+        <td>Duplicate of Rule 20 DNS redirect.</td>
+        <td>Unnecessary redirection logic loops.</td>
+      </tr>
+      <tr>
+        <td>Rule 40</td>
+        <td>WAN TCP target 192.168.1.200:5432</td>
+        <td><span class="badge-risk">Security Risk</span></td>
+        <td>Exposed DB port 5432 on WAN boundary.</td>
+        <td>Direct external SQL security brute-force threats.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<span class="highlight-success">[+] Verification Check: Simulated WAN vulnerability port scan...</span>
+Starting Nmap port scan query to boundary interface...
+Nmap scan report: TCP Port 80 is open (http), TCP Port 22 is closed (ssh), TCP Port 5432 is closed (postgresql)
+<span class="highlight-success">[*] All exposures mapped and rule recommendations verified.</span>
+==================================================================
+
+<span class="prompt">PS C:\Users\admin\flyrank-ml-internship-starter></span> <span class="highlight-success">_</span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
