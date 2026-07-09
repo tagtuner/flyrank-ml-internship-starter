@@ -12,7 +12,8 @@ async def main():
     files_to_capture = [
         ("sitemap_sketch.html", "sitemap_sketch.png", (920, 720)),
         ("claude_project_v2_mockup.html", "claude_project_v2_config.png", (1200, 800)),
-        ("claude_chat_pressure_test.html", "claude_pressure_test_chat.png", (1200, 800))
+        ("claude_chat_pressure_test.html", "claude_pressure_test_chat.png", (1200, 800)),
+        ("identity_kit.html", "identity_kit.png", (920, 850))
     ]
     
     async with async_playwright() as p:

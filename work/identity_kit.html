@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OmniTech Brand Identity Kit</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 60px;
+      background-color: #fcfbfa;
+      color: #1a1a19;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    /* Brand Header */
+    .brand-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #e6e4df;
+      padding-bottom: 24px;
+    }
+
+    .brand-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-subtitle {
+      font-size: 0.9rem;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    /* SVG Monogram Logo */
+    .logo-monogram {
+      width: 64px;
+      height: 64px;
+    }
+
+    /* Section Styles */
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #777;
+      margin-bottom: 20px;
+      border-left: 3px solid #cc785c;
+      padding-left: 12px;
+    }
+
+    /* Colors Section */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+    }
+
+    .color-card {
+      background: #fff;
+      border: 1px solid #e6e4df;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .color-block {
+      height: 100px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .color-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .color-hex {
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* Typography Section */
+    .type-demo {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      background: #fff;
+      border: 1px solid #e6e4df;
+      border-radius: 8px;
+      padding: 24px;
+    }
+
+    .font-sample-header {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .font-sample-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 0;
+      color: #444;
+    }
+
+    /* Style Note Card */
+    .note-card {
+      background-color: #fff;
+      border: 1px dashed #cc785c;
+      border-left: 4px solid #cc785c;
+      padding: 24px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .note-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin: 0;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Brand Header -->
+    <header class="brand-header">
+      <div class="brand-meta">
+        <h1 class="brand-title">OmniTech</h1>
+        <span class="brand-subtitle">Brand Identity Kit</span>
+      </div>
+      <!-- Custom Monogram SVG -->
+      <svg class="logo-monogram" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" fill="none" stroke="#1a1a19" stroke-width="6" />
+        <!-- Intersection Circle -->
+        <circle cx="50" cy="50" r="30" fill="none" stroke="#cc785c" stroke-width="4" stroke-dasharray="8 4" />
+        <!-- Stylized "O" and "T" intersection paths -->
+        <line x1="50" y1="20" x2="50" y2="80" stroke="#1a1a19" stroke-width="6" stroke-linecap="round" />
+        <line x1="30" y1="35" x2="70" y2="35" stroke="#cc785c" stroke-width="5" stroke-linecap="round" />
+      </svg>
+    </header>
+
+    <!-- Colors Section -->
+    <section>
+      <div class="section-title">Color Palette</div>
+      <div class="color-grid">
+        <div class="color-card">
+          <div class="color-block" style="background-color: #fcfbfa;"></div>
+          <span class="color-name">Alabaster</span>
+          <span class="color-hex">#fcfbfa</span>
+        </div>
+        <div class="color-card">
+          <div class="color-block" style="background-color: #1a1a19;"></div>
+          <span class="color-name">Charcoal</span>
+          <span class="color-hex">#1a1a19</span>
+        </div>
+        <div class="color-card">
+          <div class="color-block" style="background-color: #cc785c;"></div>
+          <span class="color-name">Terracotta</span>
+          <span class="color-hex">#cc785c</span>
+        </div>
+        <div class="color-card">
+          <div class="color-block" style="background-color: #e6e4df;"></div>
+          <span class="color-name">Soft Gray</span>
+          <span class="color-hex">#e6e4df</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography Section -->
+    <section>
+      <div class="section-title">Typography Pairings</div>
+      <div class="type-demo">
+        <div>
+          <span style="font-size: 0.8rem; text-transform: uppercase; color: #777; font-weight: 600;">Heading Font: Outfit</span>
+          <h2 class="font-sample-header">Aa Bb Cc Dd Ee Ff Gg 12345</h2>
+        </div>
+        <div>
+          <span style="font-size: 0.8rem; text-transform: uppercase; color: #777; font-weight: 600;">Body Font: Inter</span>
+          <p class="font-sample-body">
+            I design and audit zero-trust enterprise networks using PfSense firewalls. I help Managed Service Providers minimize client downtime and secure WAN-facing routing paths.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Two-Line Style Guide Note -->
+    <section>
+      <div class="section-title">Workspace Style Guide Note</div>
+      <div class="note-card">
+        <p class="note-text">
+          <strong>Style Note:</strong> Fonts: Outfit (headings) & Inter (body). Colors: #fcfbfa (bg), #1a1a19 (text), #cc785c (terracotta). Mood: A clean, quiet, engineering-focused framework that keeps live security logs and rule metrics as the primary focal points.
+        </p>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>
