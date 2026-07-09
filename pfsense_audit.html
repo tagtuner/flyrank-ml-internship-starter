@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniTech | PfSense Ruleset Auditing Case Study</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fcfbfa;
+      color: #1a1a19;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    header {
+      width: 100%;
+      max-width: 900px;
+      padding: 30px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+      border-bottom: 1px solid #e6e4df;
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container {
+      width: 40px;
+      height: 40px;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+
+    nav a {
+      color: #1a1a19;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      margin-left: 20px;
+    }
+
+    nav a:hover {
+      color: #cc785c;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      padding: 60px 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .back-link {
+      font-size: 0.9rem;
+      color: #cc785c;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      border-top: 1px solid #e6e4df;
+      border-bottom: 1px solid #e6e4df;
+      padding: 20px 0;
+      margin-top: 10px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #777;
+      font-weight: 600;
+    }
+
+    .meta-value {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    /* Beats Styles */
+    .beat-section h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0 0 16px 0;
+      border-bottom: 1px solid #e6e4df;
+      padding-bottom: 8px;
+    }
+
+    .beat-section p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #333;
+      margin: 0 0 20px 0;
+    }
+
+    /* Code blocks */
+    pre {
+      background-color: #f5f4f0;
+      border: 1px solid #e6e4df;
+      border-radius: 6px;
+      padding: 16px;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+
+    th {
+      font-family: 'Outfit', sans-serif;
+      text-align: left;
+      font-weight: 600;
+      color: #777;
+      padding: 12px;
+      border-bottom: 2px solid #e6e4df;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #e6e4df;
+      line-height: 1.5;
+    }
+
+    /* CTA Card */
+    .cta-card {
+      background-color: #fff;
+      border: 1px solid #cc785c;
+      border-left: 4px solid #cc785c;
+      border-radius: 8px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #cc785c;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      align-self: flex-start;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #b56247;
+    }
+
+    footer {
+      width: 100%;
+      border-top: 1px solid #e6e4df;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      max-width: 900px;
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand-meta">
+      <div class="logo-container">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#1a1a19" stroke-width="6" />
+          <circle cx="50" cy="50" r="30" fill="none" stroke="#cc785c" stroke-width="4" stroke-dasharray="8 4" />
+          <line x1="50" y1="20" x2="50" y2="80" stroke="#1a1a19" stroke-width="6" stroke-linecap="round" />
+          <line x1="30" y1="35" x2="70" y2="35" stroke="#cc785c" stroke-width="5" stroke-linecap="round" />
+        </svg>
+      </div>
+      <h2 class="brand-title">OmniTech</h2>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="audit_booking.html">Book Audit</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <a href="index.html" class="back-link">&larr; Back to Home</a>
+    
+    <h1>Hardening &amp; Optimizing a Production PfSense Ruleset</h1>
+    
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-label">Client</span>
+        <span class="meta-value">Multi-Site MSP</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">Security Auditor</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Duration</span>
+        <span class="meta-value">1 Week</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Key Metric</span>
+        <span class="meta-value" style="color: #cc785c; font-weight: 600;">35% State Drop</span>
+      </div>
+    </div>
+
+    <!-- Beat 1: The Problem -->
+    <section class="beat-section">
+      <h2>The Problem</h2>
+      <p>A scaling Managed Service Provider reported client-side latency spikes and occasional firewall state table exhaustion. The PfSense ruleset had ballooned to 152 active entries over three years. Over half of these rules were undocumented, overlapping, or obsolete. Open port configurations exposed sensitive local database services directly to public interfaces.</p>
+    </section>
+
+    <!-- Beat 2: What I Did -->
+    <section class="beat-section">
+      <h2>What I Did (and Decided)</h2>
+      <p>I extracted the XML configuration file and wrote a log preparation script to trace active routing connections. I identified and purged 42 duplicate or inactive firewall rules to clear the state tracking workload. I decided to block all direct public database access ports, replacing them with restricted IPSec VPN routing paths. I limited firewall GUI administration access exclusively to a secure local management VLAN, locking down public WAN facing interfaces.</p>
+      
+      <h3>XML Configuration Conflict (Pruned)</h3>
+      <pre>&lt;filter&gt;
+  &lt;!-- Rule 10: PASS WAN Web Traffic --&gt;
+  &lt;rule&gt;
+    &lt;interface&gt;wan&lt;/interface&gt;
+    &lt;protocol&gt;tcp&lt;/protocol&gt;
+    &lt;destination&gt;&lt;address&gt;192.168.1.100&lt;/address&gt;&lt;port&gt;80&lt;/port&gt;&lt;/destination&gt;
+  &lt;/rule&gt;
+  &lt;!-- Rule 11: Duplicate entry (Safely Removed) --&gt;
+  &lt;rule&gt;
+    &lt;interface&gt;wan&lt;/interface&gt;
+    &lt;protocol&gt;tcp&lt;/protocol&gt;
+    &lt;destination&gt;&lt;address&gt;192.168.1.100&lt;/address&gt;&lt;port&gt;80&lt;/port&gt;&lt;/destination&gt;
+  &lt;/rule&gt;
+&lt;/filter&gt;</pre>
+    </section>
+
+    <!-- Beat 3: What Came of It -->
+    <section class="beat-section">
+      <h2>What Came of It</h2>
+      <p>Max state table usage dropped by 35% during peak hours (from 42,000 states to 27,300). Average firewall memory consumption fell by 18%. An external nmap vulnerability scan verified zero unintended ports were open to the public internet.</p>
+      
+      <h3>Vulnerability Verification Scan Logs</h3>
+      <pre>$ nmap -sS -p 80,22,5432 192.168.1.100
+Starting Nmap 7.92 ( https://nmap.org )
+Nmap scan report for client-boundary.local (192.168.1.100)
+Host is up (0.015s latency).
+
+PORT     STATE  SERVICE
+80/tcp   open   http
+22/tcp   closed ssh
+5432/tcp closed postgresql
+
+Nmap done: 1 IP address (1 host up) scanned in 0.22 seconds</pre>
+      
+      <h3>Pruned Rules Summary</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Rule ID</th>
+            <th>Type</th>
+            <th>Pruned Reason</th>
+            <th>Operational Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>**Rule 11**</td>
+            <td>Duplicate</td>
+            <td>Identical destination to Rule 10.</td>
+            <td>Saved state-table lookups.</td>
+          </tr>
+          <tr>
+            <td>**Rule 16**</td>
+            <td>Conflicting</td>
+            <td>Override by Rule 15 block.</td>
+            <td>Eliminated ruleset confusion.</td>
+          </tr>
+          <tr>
+            <td>**Rule 40**</td>
+            <td>Security Risk</td>
+            <td>Public exposure of database port.</td>
+            <td>Prevented brute-force threats.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><em>Lessons learned:</em> I would automate pre-change network latency baselining to capture exact millisecond improvements rather than relying on state-table statistics alone.</p>
+    </section>
+
+    <!-- Footer Action Card -->
+    <section class="cta-card">
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; margin: 0; color: #cc785c;">Protect Your Client Network Boundaries</h3>
+      <p style="margin: 0; color: #555; line-height: 1.5; font-size: 0.95rem;">I audit PfSense firewall rulesets to eliminate latency, drop state tables, and lock down management endpoints.</p>
+      <a href="audit_booking.html" class="btn">Schedule a 15-Minute Audit Call</a>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <span>&copy; 2026 OmniTech. All rights reserved. Built with Vanilla HTML/CSS.</span>
+    <span>Zero-Trust Security Focus</span>
+  </footer>
+
+</body>
+</html>

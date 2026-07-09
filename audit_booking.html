@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniTech | Schedule a 15-Minute Network Review</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fcfbfa;
+      color: #1a1a19;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    header {
+      width: 100%;
+      max-width: 900px;
+      padding: 30px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+      border-bottom: 1px solid #e6e4df;
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container {
+      width: 40px;
+      height: 40px;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+
+    nav a {
+      color: #1a1a19;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      margin-left: 20px;
+    }
+
+    nav a:hover {
+      color: #cc785c;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      padding: 60px 20px;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    .info-section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+    }
+
+    p {
+      font-size: 0.98rem;
+      line-height: 1.6;
+      color: #555;
+      margin: 0;
+    }
+
+    /* Checklist */
+    .checklist-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #cc785c;
+      margin-top: 10px;
+    }
+
+    .checklist {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: #333;
+    }
+
+    .checklist-item::before {
+      content: "✓";
+      color: #cc785c;
+      font-weight: bold;
+    }
+
+    /* Booking widget mockup */
+    .booking-widget {
+      background: #fff;
+      border: 1px solid #e6e4df;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input, .form-group select {
+      padding: 10px 14px;
+      border: 1px solid #e6e4df;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      background-color: #fcfbfa;
+      color: #1a1a19;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #cc785c;
+    }
+
+    .btn {
+      display: block;
+      padding: 12px;
+      background-color: #cc785c;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background-color: #b56247;
+    }
+
+    footer {
+      width: 100%;
+      border-top: 1px solid #e6e4df;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      max-width: 900px;
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand-meta">
+      <div class="logo-container">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#1a1a19" stroke-width="6" />
+          <circle cx="50" cy="50" r="30" fill="none" stroke="#cc785c" stroke-width="4" stroke-dasharray="8 4" />
+          <line x1="50" y1="20" x2="50" y2="80" stroke="#1a1a19" stroke-width="6" stroke-linecap="round" />
+          <line x1="30" y1="35" x2="70" y2="35" stroke="#cc785c" stroke-width="5" stroke-linecap="round" />
+        </svg>
+      </div>
+      <h2 class="brand-title">OmniTech</h2>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pfsense_audit.html">Case Study</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Info Section -->
+    <div class="info-section">
+      <h1>Book a 15-Minute Network Review</h1>
+      <p>Select a time to evaluate your client boundaries, isolate ruleset duplication risks, and identify database WAN exposures.</p>
+      
+      <span class="checklist-title">Pre-Call Checklist</span>
+      <ul class="checklist">
+        <li class="checklist-item">Confirm access to your client's active PfSense configuration XML file.</li>
+        <li class="checklist-item">Establish target subnets and client counts experiencing connection latency.</li>
+        <li class="checklist-item">Identify database endpoints currently exposed directly to public WAN boundaries.</li>
+      </ul>
+    </div>
+
+    <!-- Mock Booking widget -->
+    <div class="booking-widget">
+      <h3 style="font-family: 'Outfit', sans-serif; margin: 0 0 8px 0; font-size: 1.2rem;">Select Time &amp; Scope</h3>
+      
+      <form action="#" onsubmit="alert('Mock Booking Confirmed! Thank you.'); return false;">
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="name">MSP Contact Name</label>
+          <input type="text" id="name" required placeholder="e.g. John Doe">
+        </div>
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="email">Work Email</label>
+          <input type="email" id="email" required placeholder="e.g. john@msp.com">
+        </div>
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="date">Select Date</label>
+          <input type="date" id="date" required value="2026-07-10">
+        </div>
+        <div class="form-group" style="margin-bottom: 24px;">
+          <label for="time">Select Time Slot</label>
+          <select id="time" required>
+            <option value="10:00">10:00 AM (EST)</option>
+            <option value="11:30">11:30 AM (EST)</option>
+            <option value="14:00">02:00 PM (EST)</option>
+            <option value="15:30">03:30 PM (EST)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Confirm meeting</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <span>&copy; 2026 OmniTech. All rights reserved. Built with Vanilla HTML/CSS.</span>
+    <span>Zero-Trust Security Focus</span>
+  </footer>
+
+</body>
+</html>

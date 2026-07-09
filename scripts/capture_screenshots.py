@@ -15,7 +15,9 @@ async def main():
         ("claude_chat_pressure_test.html", "claude_pressure_test_chat.png", (1200, 800)),
         ("identity_kit.html", "identity_kit.png", (920, 850)),
         ("../index.html", "empty_but_live.png", (920, 720)),
-        ("mcp_showcase_mockup.html", "mcp_evidence.png", (920, 900))
+        ("mcp_showcase_mockup.html", "mcp_evidence.png", (920, 900)),
+        ("../pfsense_audit.html", "case_study.png", (1200, 1000)),
+        ("../audit_booking.html", "booking_page.png", (1200, 800))
     ]
     
     async with async_playwright() as p:
