@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniTech | pfSense Ruleset Analyzer</title>
+  
+  <meta name="description" content="Audit and optimize PfSense firewall rulesets dynamically. Find duplicates, conflict blocks, and exposed database endpoints locally.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #1a1a19;
+      background-color: #fcfbfa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    /* Topbar Header */
+    header {
+      width: 100%;
+      background: #fff;
+      border-bottom: 1px solid #e6e4df;
+      padding: 20px 40px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-container {
+      width: 32px;
+      height: 32px;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover, nav a.active {
+      color: #cc785c;
+    }
+
+    /* Container Layout */
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      flex-grow: 1;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+      letter-spacing: -0.8px;
+    }
+
+    .lead {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.6;
+      margin: 0 0 10px 0;
+      max-width: 800px;
+    }
+
+    /* Main Workspace Split */
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.2fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* Input Area Card */
+    .card {
+      background: #fff;
+      border: 1px solid #e6e4df;
+      border-radius: 8px;
+      padding: 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-sizing: border-box;
+    }
+
+    .card h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.3rem;
+      margin: 0;
+      color: #cc785c;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 280px;
+      padding: 12px;
+      box-sizing: border-box;
+      border: 1px solid #e6e4df;
+      border-radius: 6px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.85rem;
+      resize: vertical;
+      background-color: #faf9f6;
+      color: #1a1a19;
+      line-height: 1.4;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #cc785c;
+      background-color: #fff;
+    }
+
+    /* File upload design */
+    .file-drop-zone {
+      border: 2px dashed #e6e4df;
+      border-radius: 6px;
+      padding: 20px;
+      text-align: center;
+      background-color: #faf9f6;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .file-drop-zone:hover {
+      border-color: #cc785c;
+      background-color: #fff;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #cc785c;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #b56247;
+    }
+
+    .btn-secondary {
+      background-color: #fff;
+      color: #1a1a19;
+      border: 1px solid #e6e4df;
+    }
+
+    .btn-secondary:hover {
+      background-color: #faf9f6;
+    }
+
+    /* Dashboard Metrics Card */
+    .metrics-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .metric-box {
+      background-color: #faf9f6;
+      border: 1px solid #e6e4df;
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #cc785c;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      color: #777;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Circular health container */
+    .health-score-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 10px 0;
+      border-bottom: 1px solid #e6e4df;
+    }
+
+    .circle-wrap {
+      width: 80px;
+      height: 80px;
+      background: #faf9f6;
+      border-radius: 50%;
+      border: 1px solid #e6e4df;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .circle-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #cc785c;
+    }
+
+    /* Rules Findings Card items */
+    .findings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .finding-item {
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+
+    .finding-item.risk {
+      background-color: #fdebee;
+      border: 1px solid #fbd2d7;
+      color: #5f2121;
+    }
+
+    .finding-item.conflict {
+      background-color: #fdf3eb;
+      border: 1px solid #f9dfca;
+      color: #63361e;
+    }
+
+    .finding-item.duplicate {
+      background-color: #f5f4f0;
+      border: 1px solid #e6e4df;
+      color: #555;
+    }
+
+    .badge {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge.red { background-color: #ff5f56; color: #fff; }
+    .badge.orange { background-color: #cc785c; color: #fff; }
+    .badge.grey { background-color: #777; color: #fff; }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      border-top: 1px solid #e6e4df;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      max-width: 900px;
+      font-size: 0.85rem;
+      color: #777;
+      margin: 40px auto 0 auto;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(26, 26, 25, 0.4);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      border: 1px solid #e6e4df;
+      border-radius: 8px;
+      padding: 32px;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 20px;
+      top: 16px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+      border: none;
+      background: none;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #1a1a19;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 850px) {
+      .workspace-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        padding: 20px 15px;
+        gap: 16px;
+        align-items: center;
+        text-align: center;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px 16px;
+      }
+      .container {
+        padding: 30px 15px;
+        gap: 24px;
+      }
+      h1 {
+        font-size: 1.7rem;
+      }
+      footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar Header -->
+  <header>
+    <div class="brand-meta">
+      <div class="logo-container">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#1a1a19" stroke-width="6" />
+          <circle cx="50" cy="50" r="30" fill="none" stroke="#cc785c" stroke-width="4" stroke-dasharray="8 4" />
+          <line x1="50" y1="20" x2="50" y2="80" stroke="#1a1a19" stroke-width="6" stroke-linecap="round" />
+          <line x1="30" y1="35" x2="70" y2="35" stroke="#cc785c" stroke-width="5" stroke-linecap="round" />
+        </svg>
+      </div>
+      <h2 class="brand-title">OmniTech</h2>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pfsense_audit.html">Case Study</a>
+      <a href="pfsense_analyzer.html" class="active">Ruleset Analyzer</a>
+      <a href="audit_booking.html">Book Audit</a>
+      <a href="https://linkedin.com/in/omnitech-systems" target="_blank">LinkedIn</a>
+      <a href="https://github.com/tagtuner/flyrank-ml-internship-starter" target="_blank">GitHub</a>
+      <a href="#" onclick="openModal(); return false;">CV</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div>
+      <h1>pfSense Ruleset Analyzer</h1>
+      <p class="lead">Audit your firewall configuration files dynamically. Paste your ruleset XML below to parse duplicate filters, identify conflicting overrides, and inspect public network database exposures.</p>
+    </div>
+
+    <div class="workspace-grid">
+      <!-- Left Panel: Input Area -->
+      <div class="card">
+        <h2>Source Configuration XML</h2>
+        
+        <div class="file-drop-zone" onclick="document.getElementById('fileInput').click()">
+          <span style="font-weight: 500; font-size: 0.9rem;">Click to upload configuration XML file</span>
+          <input type="file" id="fileInput" accept=".xml" style="display: none;" onchange="handleFileUpload(event)">
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px; text-align: left;">
+          <label for="xmlInput">Configuration Text</label>
+          <textarea id="xmlInput" placeholder="Paste your pfSense configuration XML here..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+          <button class="btn" style="flex: 1.2;" onclick="executeAudit()">Run Security Audit</button>
+          <button class="btn btn-secondary" style="flex: 0.8;" onclick="loadSampleXML()">Load Sample</button>
+        </div>
+      </div>
+
+      <!-- Right Panel: Dynamic Audit Output -->
+      <div class="card" id="dashboardCard">
+        <h2>Security &amp; Optimization Dashboard</h2>
+        
+        <!-- Placeholder View -->
+        <div id="placeholderView" style="padding: 60px 0; color: #888; text-align: center; display: flex; flex-direction: column; gap: 12px; align-items: center;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: #bbb;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <p style="margin: 0; font-size: 0.95rem; line-height: 1.5; max-width: 280px;">Upload or load a sample ruleset to execute the zero-trust audit.</p>
+        </div>
+
+        <!-- Dashboard Result View (Hidden by default) -->
+        <div id="resultView" style="display: none; flex-direction: column; gap: 24px;">
+          <div class="health-score-container">
+            <div class="circle-wrap">
+              <span class="circle-val" id="healthVal">80%</span>
+            </div>
+            <div style="text-align: left;">
+              <h3 style="margin: 0 0 4px 0; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Optimisation Health Score</h3>
+              <p style="margin: 0; font-size: 0.85rem; color: #777;" id="healthSubtitle">2 optimizations remaining to clean boundary ruleset.</p>
+            </div>
+          </div>
+
+          <div class="metrics-summary-grid">
+            <div class="metric-box">
+              <span class="metric-num" id="totalRulesVal">0</span>
+              <span class="metric-label">Rules Parsed</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-num" id="duplicatesVal">0</span>
+              <span class="metric-label">Duplicates</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-num" id="conflictsVal">0</span>
+              <span class="metric-label">Conflicting</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-num" id="risksVal">0</span>
+              <span class="metric-label">WAN Exposures</span>
+            </div>
+          </div>
+
+          <div style="text-align: left; display: flex; flex-direction: column; gap: 10px;">
+            <label>Audit Findings &amp; Logs</label>
+            <div class="findings-list" id="findingsList">
+              <!-- JS Injects logs here -->
+            </div>
+          </div>
+
+          <button class="btn" style="width: 100%;" id="exportBtn" onclick="exportOptimisedXML()">Export Optimised XML</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <span>&copy; 2026 OmniTech. All rights reserved. Built with Vanilla HTML/CSS.</span>
+    <span>Zero-Trust Security Focus</span>
+  </footer>
+
+  <!-- Modal for CV Download -->
+  <div id="cvModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h3 style="font-family: 'Outfit', sans-serif; margin: 0; font-size: 1.3rem; color: #cc785c;">Download Curriculum Vitae</h3>
+      <p style="margin: 0; color: #555; font-size: 0.95rem; line-height: 1.5;">The requested document <strong>OmniTech_CV.pdf</strong> is ready for review. Download the profile to view full systems and network routing credentials.</p>
+      <div style="display: flex; gap: 12px; margin-top: 8px;">
+        <a href="work/dns_walkthrough.md" download="OmniTech_CV.pdf" class="btn" style="flex: 1; text-align: center; font-size: 0.9rem; align-self: auto;">Download PDF</a>
+        <button class="btn btn-secondary" onclick="closeModal()" style="flex: 1; font-size: 0.9rem; padding: 11px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('cvModal').style.display = 'flex';
+    }
+    function closeModal() {
+      document.getElementById('cvModal').style.display = 'none';
+    }
+    window.onclick = function(event) {
+      var modal = document.getElementById('cvModal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+    // Load sample XML text content
+    function loadSampleXML() {
+      // Inline representation of work/pfsense_rules.xml to avoid fetch CORS on local files
+      const sampleXML = `<?xml version="1.0" encoding="UTF-8"?>
+<pfsense>
+  <filter>
+    <!-- Rule 10: PASS HTTP WAN traffic to HTTP Server -->
+    <rule>
+      <id>10</id>
+      <interface>wan</interface>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.100</address>
+        <port>80</port>
+      </destination>
+      <descr>Pass HTTP WAN Traffic</descr>
+    </rule>
+    
+    <!-- Rule 11: Duplicate HTTP WAN traffic rule (Redundant entry) -->
+    <rule>
+      <id>11</id>
+      <interface>wan</interface>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.100</address>
+        <port>80</port>
+      </destination>
+      <descr>Pruning Target - Duplicate WAN Access</descr>
+    </rule>
+
+    <!-- Rule 15: BLOCK SSH WAN access from any public host -->
+    <rule>
+      <id>15</id>
+      <interface>wan</interface>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <any></any>
+        <port>22</port>
+      </destination>
+      <descr>Block Public SSH</descr>
+    </rule>
+
+    <!-- Rule 16: PASS SSH WAN traffic (Conflicting - Overridden by Rule 15 block) -->
+    <rule>
+      <id>16</id>
+      <interface>wan</interface>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.100</address>
+        <port>22</port>
+      </destination>
+      <descr>Pruning Target - Inactive SSH Pass</descr>
+    </rule>
+
+    <!-- Rule 20: PASS Local DNS lookup UDP Lan redirect -->
+    <rule>
+      <id>20</id>
+      <interface>lan</interface>
+      <protocol>udp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.1</address>
+        <port>53</port>
+      </destination>
+      <descr>LAN DNS Pass</descr>
+    </rule>
+
+    <!-- Rule 21: Duplicate LAN DNS lookup (Redundant redirection) -->
+    <rule>
+      <id>21</id>
+      <interface>lan</interface>
+      <protocol>udp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.1</address>
+        <port>53</port>
+      </destination>
+      <descr>Pruning Target - Duplicate LAN DNS</descr>
+    </rule>
+
+    <!-- Rule 40: Exposed public PostgreSQL port (Security risk exposure) -->
+    <rule>
+      <id>40</id>
+      <interface>wan</interface>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <address>192.168.1.200</address>
+        <port>5432</port>
+      </destination>
+      <descr>WAN SQL Access</descr>
+    </rule>
+  </filter>
+</pfsense>`;
+      document.getElementById('xmlInput').value = sampleXML;
+      executeAudit();
+    }
+
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('xmlInput').value = e.target.result;
+        executeAudit();
+      };
+      reader.readAsText(file);
+    }
+
+    // Execute XML Parsing and Security Auditing
+    function executeAudit() {
+      const rawXML = document.getElementById('xmlInput').value.trim();
+      if (!rawXML) {
+        alert("Please enter or load some ruleset XML first.");
+        return;
+      }
+
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(rawXML, "text/xml");
+      
+      // Check for parsing errors
+      const parseError = xmlDoc.getElementsByTagName("parsererror");
+      if (parseError.length > 0) {
+        document.getElementById('placeholderView').style.display = 'flex';
+        document.getElementById('resultView').style.display = 'none';
+        alert("XML Parsing Error. Please confirm format validity.");
+        return;
+      }
+
+      const rules = xmlDoc.getElementsByTagName("rule");
+      const totalRules = rules.length;
+      
+      if (totalRules === 0) {
+        alert("No <rule> elements located. Verify XML structure.");
+        return;
+      }
+
+      const duplicates = [];
+      const conflicts = [];
+      const risks = [];
+      
+      const fingerprints = {};
+      const blockRules = [];
+      const passRules = [];
+
+      for (let i = 0; i < totalRules; i++) {
+        const rule = rules[i];
+        const id = rule.getElementsByTagName("id")[0]?.textContent || `Idx ${i + 1}`;
+        const interfaceName = rule.getElementsByTagName("interface")[0]?.textContent || "";
+        const protocol = rule.getElementsByTagName("protocol")[0]?.textContent || "";
+        const descr = rule.getElementsByTagName("descr")[0]?.textContent || "";
+        
+        const destination = rule.getElementsByTagName("destination")[0];
+        const destAddress = destination?.getElementsByTagName("address")[0]?.textContent || "any";
+        const destPort = destination?.getElementsByTagName("port")[0]?.textContent || "any";
+        
+        const source = rule.getElementsByTagName("source")[0];
+        const srcAddress = source?.getElementsByTagName("address")[0]?.textContent || "any";
+        const srcPort = source?.getElementsByTagName("port")[0]?.textContent || "any";
+
+        let action = "pass";
+        if (rule.getElementsByTagName("block").length > 0) action = "block";
+        if (rule.getElementsByTagName("reject").length > 0) action = "reject";
+
+        // Security check
+        if (interfaceName === "wan" && action === "pass") {
+          const sensitivePorts = ["22", "5432", "3306", "3389"];
+          if (sensitivePorts.includes(destPort)) {
+            risks.push({
+              id: id,
+              port: destPort,
+              descr: descr,
+              service: destPort === "5432" ? "PostgreSQL" : destPort === "22" ? "SSH" : destPort === "3389" ? "RDP" : "MySQL"
+            });
+          }
+        }
+
+        // Duplication check
+        const fp = `${interfaceName}|${protocol}|${srcAddress}|${srcPort}|${destAddress}|${destPort}`;
+        if (fingerprints[fp]) {
+          duplicates.push({
+            id: id,
+            duplicateOf: fingerprints[fp],
+            descr: descr
+          });
+        } else {
+          fingerprints[fp] = id;
+        }
+
+        // Log pass/block for conflict analysis
+        if (action === "block" || action === "reject") {
+          blockRules.push({ id, interfaceName, protocol, destPort });
+        } else if (action === "pass") {
+          passRules.push({ id, interfaceName, protocol, destPort, descr });
+        }
+      }
+
+      // Conflict audit (dead pass rules beneath block actions)
+      for (const pass of passRules) {
+        for (const block of blockRules) {
+          if (pass.interfaceName === block.interfaceName && 
+              pass.protocol === block.protocol &&
+              (block.destPort === "any" || pass.destPort === block.destPort)) {
+            if (parseInt(pass.id) > parseInt(block.id)) {
+              conflicts.push({
+                passId: pass.id,
+                blockId: block.id,
+                descr: pass.descr
+              });
+            }
+          }
+        }
+      }
+
+      // Update Dashboard viewports
+      document.getElementById('placeholderView').style.display = 'none';
+      document.getElementById('resultView').style.display = 'flex';
+
+      document.getElementById('totalRulesVal').textContent = totalRules;
+      document.getElementById('duplicatesVal').textContent = duplicates.length;
+      document.getElementById('conflictsVal').textContent = conflicts.length;
+      document.getElementById('risksVal').textContent = risks.length;
+
+      // Calculate health score: start at 100%, deduct for leaks, duplicates, and conflicts
+      let score = 100;
+      score -= (risks.length * 20); // heavy penalty for open DBs
+      score -= (duplicates.length * 10);
+      score -= (conflicts.length * 10);
+      score = Math.max(0, score);
+
+      document.getElementById('healthVal').textContent = `${score}%`;
+
+      const subtitle = document.getElementById('healthSubtitle');
+      const totalIssues = risks.length + duplicates.length + conflicts.length;
+      if (totalIssues === 0) {
+        subtitle.textContent = "Perfect zero-trust alignment! Ruleset is fully optimized.";
+        document.getElementById('healthVal').style.color = "#2e7d32";
+      } else {
+        subtitle.textContent = `${totalIssues} optimization target(s) located. Click export to fix.`;
+        document.getElementById('healthVal').style.color = score < 60 ? "#c94c4c" : "#cc785c";
+      }
+
+      // Render findings logs list
+      const list = document.getElementById('findingsList');
+      list.innerHTML = "";
+
+      if (totalIssues === 0) {
+        list.innerHTML = `
+          <div style="text-align: center; padding: 20px; color: #777; font-size: 0.9rem;">
+            No optimization violations found. Clean boundaries verified.
+          </div>
+        `;
+        return;
+      }
+
+      // Risks
+      risks.forEach(risk => {
+        const item = document.createElement('div');
+        item.className = "finding-item risk";
+        item.innerHTML = `
+          <span class="badge red">Security Risk</span>
+          <span style="font-weight: 600;">Rule ${risk.id}: Public WAN Exposure</span>
+          <span>Exposes sensitive database/admin service <strong>${risk.service} (Port ${risk.port})</strong> to WAN.</span>
+        `;
+        list.appendChild(item);
+      });
+
+      // Conflicts
+      conflicts.forEach(cf => {
+        const item = document.createElement('div');
+        item.className = "finding-item conflict";
+        item.innerHTML = `
+          <span class="badge orange">Conflict</span>
+          <span style="font-weight: 600;">Rule ${cf.passId}: Redundant Pass Trigger</span>
+          <span>This rule is placed below BLOCK Rule ${cf.blockId} for identical destination ports. It will never trigger.</span>
+        `;
+        list.appendChild(item);
+      });
+
+      // Duplicates
+      duplicates.forEach(dp => {
+        const item = document.createElement('div');
+        item.className = "finding-item duplicate";
+        item.innerHTML = `
+          <span class="badge grey">Duplicate</span>
+          <span style="font-weight: 600;">Rule ${dp.id}: Redundant Duplicate</span>
+          <span>Identical interface matching parameters to Rule ${dp.duplicateOf}. Safely removable.</span>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    // Export cleaned XML file
+    function exportOptimisedXML() {
+      const rawXML = document.getElementById('xmlInput').value.trim();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(rawXML, "text/xml");
+      const filterNode = xmlDoc.getElementsByTagName("filter")[0];
+      
+      if (!filterNode) {
+        alert("Incorrect XML structure.");
+        return;
+      }
+      
+      const rules = filterNode.getElementsByTagName("rule");
+      const toRemove = [];
+      const fingerprints = {};
+
+      for (let i = 0; i < rules.length; i++) {
+        const rule = rules[i];
+        const interfaceName = rule.getElementsByTagName("interface")[0]?.textContent || "";
+        const protocol = rule.getElementsByTagName("protocol")[0]?.textContent || "";
+        const destination = rule.getElementsByTagName("destination")[0];
+        const destAddress = destination?.getElementsByTagName("address")[0]?.textContent || "any";
+        const destPort = destination?.getElementsByTagName("port")[0]?.textContent || "any";
+        const source = rule.getElementsByTagName("source")[0];
+        const srcAddress = source?.getElementsByTagName("address")[0]?.textContent || "any";
+        const srcPort = source?.getElementsByTagName("port")[0]?.textContent || "any";
+        
+        const fp = `${interfaceName}|${protocol}|${srcAddress}|${srcPort}|${destAddress}|${destPort}`;
+        if (fingerprints[fp]) {
+          toRemove.push(rule);
+        } else {
+          fingerprints[fp] = true;
+        }
+      }
+
+      toRemove.forEach(rule => {
+        filterNode.removeChild(rule);
+      });
+
+      const serializer = new XMLSerializer();
+      const cleanedText = serializer.serializeToString(xmlDoc);
+      
+      // Download triggers
+      const blob = new Blob([cleanedText], { type: "text/xml" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "optimised_pfsense_rules.xml";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+</html>
