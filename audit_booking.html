@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OmniTech | Schedule a 15-Minute Network Review</title>
+  <meta name="description" content="OmniTech | Schedule an MSP Network Boundary & pfSense Firewall Ruleset Security Audit. Eliminate database WAN exposures and redundant configurations.">
+  <meta name="keywords" content="pfSense, Zero-Trust, Network Security, Firewall Audit, Ruleset Optimizer, Systems Architect, MSP Security">
+  <meta name="author" content="OmniTech">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tagtuner.github.io/flyrank-ml-internship-starter/audit_booking.html">
+  <meta property="og:title" content="OmniTech | Schedule a 15-Minute Network Review">
+  <meta property="og:description" content="Schedule a live security review to audit your pfSense XML files, verify active duplicate rules, and isolate database WAN leaks.">
+  <meta property="og:image" content="https://tagtuner.github.io/flyrank-ml-internship-starter/cv_modal_after.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://tagtuner.github.io/flyrank-ml-internship-starter/audit_booking.html">
+  <meta property="twitter:title" content="OmniTech | Schedule a 15-Minute Network Review">
+  <meta property="twitter:description" content="Schedule a live security review to audit your pfSense XML files, verify active duplicate rules, and isolate database WAN leaks.">
+  <meta property="twitter:image" content="https://tagtuner.github.io/flyrank-ml-internship-starter/cv_modal_after.png">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap');
     
@@ -366,8 +383,51 @@
 
     function handleFormSubmit(event) {
       event.preventDefault();
-      document.getElementById('bookingFormContainer').style.display = 'none';
-      document.getElementById('bookingSuccessCard').style.display = 'flex';
+      
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      
+      const nameVal = nameInput.value.trim();
+      const emailVal = emailInput.value.trim();
+      
+      // Validation 1: Reject empty or whitespace-only inputs
+      if (nameVal === "" || emailVal === "") {
+        alert("Please enter a valid Name and Email address.");
+        return false;
+      }
+      
+      // Validation 2: Format regex check (strict email validation)
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailVal)) {
+        alert("Please enter a valid work email address.");
+        return false;
+      }
+
+      // Validation 3: Basic script block protection (prevent tag injections)
+      if (nameVal.includes("<") || nameVal.includes(">") || emailVal.includes("<") || emailVal.includes(">")) {
+        alert("Invalid input characters detected. Submission blocked.");
+        return false;
+      }
+
+      // Debounce: Disable button instantly to prevent double-clicks
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Confirming...";
+      }
+      
+      // Simulate network response latency (800ms delay)
+      setTimeout(() => {
+        document.getElementById('bookingFormContainer').style.display = 'none';
+        document.getElementById('bookingSuccessCard').style.display = 'flex';
+        
+        // Reset submit button state for future usage
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Confirming meeting";
+        }
+      }, 800);
+      
       return false;
     }
     function resetForm() {
