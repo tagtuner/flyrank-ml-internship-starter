@@ -272,7 +272,7 @@
       <a href="pfsense_audit.html">Case Study</a>
       <a href="https://linkedin.com/in/omnitech-systems" target="_blank">LinkedIn</a>
       <a href="https://github.com/tagtuner/flyrank-ml-internship-starter" target="_blank">GitHub</a>
-      <a href="#" onclick="alert('CV Download Initiated (Mock File: work/cv.pdf)'); return false;">CV</a>
+      <a href="#" onclick="openModal(); return false;">CV</a>
     </nav>
   </header>
 
@@ -292,32 +292,40 @@
 
     <!-- Mock Booking widget -->
     <div class="booking-widget">
-      <h3 style="font-family: 'Outfit', sans-serif; margin: 0 0 8px 0; font-size: 1.2rem;">Select Time &amp; Scope</h3>
-      
-      <form action="#" onsubmit="alert('Mock Booking Confirmed! Thank you.'); return false;">
-        <div class="form-group" style="margin-bottom: 16px;">
-          <label for="name">MSP Contact Name</label>
-          <input type="text" id="name" required placeholder="e.g. John Doe">
-        </div>
-        <div class="form-group" style="margin-bottom: 16px;">
-          <label for="email">Work Email</label>
-          <input type="email" id="email" required placeholder="e.g. john@msp.com">
-        </div>
-        <div class="form-group" style="margin-bottom: 16px;">
-          <label for="date">Select Date</label>
-          <input type="date" id="date" required value="2026-07-10">
-        </div>
-        <div class="form-group" style="margin-bottom: 24px;">
-          <label for="time">Select Time Slot</label>
-          <select id="time" required>
-            <option value="10:00">10:00 AM (EST)</option>
-            <option value="11:30">11:30 AM (EST)</option>
-            <option value="14:00">02:00 PM (EST)</option>
-            <option value="15:30">03:30 PM (EST)</option>
-          </select>
-        </div>
-        <button type="submit" class="btn">Confirm meeting</button>
-      </form>
+      <div id="bookingFormContainer">
+        <h3 style="font-family: 'Outfit', sans-serif; margin: 0 0 8px 0; font-size: 1.2rem;">Select Time &amp; Scope</h3>
+        
+        <form id="bookingForm" action="#" onsubmit="handleFormSubmit(event); return false;">
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label for="name">MSP Contact Name</label>
+            <input type="text" id="name" required placeholder="e.g. John Doe">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label for="email">Work Email</label>
+            <input type="email" id="email" required placeholder="e.g. john@msp.com">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label for="date">Select Date</label>
+            <input type="date" id="date" required value="2026-07-10">
+          </div>
+          <div class="form-group" style="margin-bottom: 24px;">
+            <label for="time">Select Time Slot</label>
+            <select id="time" required>
+              <option value="10:00">10:00 AM (EST)</option>
+              <option value="11:30">11:30 AM (EST)</option>
+              <option value="14:00">02:00 PM (EST)</option>
+              <option value="15:30">03:30 PM (EST)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn">Confirm meeting</button>
+        </form>
+      </div>
+
+      <div id="bookingSuccessCard" style="display: none; flex-direction: column; gap: 16px; text-align: left;">
+        <h3 style="font-family: 'Outfit', sans-serif; margin: 0; font-size: 1.3rem; color: #cc785c;">📅 Booking Confirmed!</h3>
+        <p style="margin: 0; color: #555; font-size: 0.95rem; line-height: 1.5;">Thank you for scheduling a network review. We have blocked your selected time slot. A calendar invite with meeting access links has been dispatched to your work inbox.</p>
+        <button class="btn btn-secondary" onclick="resetForm()" style="width: 100%; font-size: 0.9rem; padding: 11px;">Book Another Meeting</button>
+      </div>
     </div>
   </div>
 
@@ -326,6 +334,47 @@
     <span>&copy; 2026 OmniTech. All rights reserved. Built with Vanilla HTML/CSS.</span>
     <span>Zero-Trust Security Focus</span>
   </footer>
+
+  <!-- Modal for CV Download -->
+  <div id="cvModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h3 style="font-family: 'Outfit', sans-serif; margin: 0; font-size: 1.3rem; color: #cc785c;">Download Curriculum Vitae</h3>
+      <p style="margin: 0; color: #555; font-size: 0.95rem; line-height: 1.5;">The requested document <strong>OmniTech_CV.pdf</strong> is ready for review. Download the profile to view full systems and network routing credentials.</p>
+      <div style="display: flex; gap: 12px; margin-top: 8px;">
+        <a href="work/dns_walkthrough.md" download="OmniTech_CV.pdf" class="btn" style="flex: 1; text-align: center; font-size: 0.9rem; align-self: auto;">Download PDF</a>
+        <button class="btn btn-secondary" onclick="closeModal()" style="flex: 1; font-size: 0.9rem; padding: 11px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('cvModal').style.display = 'flex';
+    }
+    function closeModal() {
+      document.getElementById('cvModal').style.display = 'none';
+    }
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      var modal = document.getElementById('cvModal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      document.getElementById('bookingFormContainer').style.display = 'none';
+      document.getElementById('bookingSuccessCard').style.display = 'flex';
+      return false;
+    }
+    function resetForm() {
+      document.getElementById('bookingForm').reset();
+      document.getElementById('bookingFormContainer').style.display = 'block';
+      document.getElementById('bookingSuccessCard').style.display = 'none';
+    }
+  </script>
 
 </body>
 </html>

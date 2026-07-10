@@ -135,17 +135,59 @@
       margin: 0 0 20px 0;
     }
 
-    /* Code blocks */
-    pre {
-      background-color: #f5f4f0;
-      border: 1px solid #e6e4df;
-      border-radius: 6px;
-      padding: 16px;
-      overflow-x: auto;
-      font-family: monospace;
-      font-size: 0.88rem;
-      line-height: 1.5;
+    /* Code blocks / Sleek Dark Terminals */
+    .terminal-container {
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 8px;
       margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .terminal-header {
+      background-color: #2d2d2d;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid #333;
+      user-select: none;
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .terminal-dot.red { background-color: #ff5f56; }
+    .terminal-dot.yellow { background-color: #ffbd2e; }
+    .terminal-dot.green { background-color: #27c93f; }
+
+    .terminal-title {
+      color: #999;
+      font-family: monospace;
+      font-size: 0.75rem;
+      margin-left: auto;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    pre {
+      background-color: #1e1e1e;
+      color: #f8f8f2;
+      border: none;
+      border-radius: 0;
+      padding: 16px 20px;
+      margin: 0;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
     }
 
     /* Table Styles */
@@ -258,6 +300,53 @@
         margin-top: 40px;
       }
     }
+
+    /* Interactive Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(26, 26, 25, 0.4);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      border: 1px solid #e6e4df;
+      border-radius: 8px;
+      padding: 32px;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 20px;
+      top: 16px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+      border: none;
+      background: none;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #1a1a19;
+    }
   </style>
 </head>
 <body>
@@ -280,7 +369,7 @@
       <a href="audit_booking.html">Book Audit</a>
       <a href="https://linkedin.com/in/omnitech-systems" target="_blank">LinkedIn</a>
       <a href="https://github.com/tagtuner/flyrank-ml-internship-starter" target="_blank">GitHub</a>
-      <a href="#" onclick="alert('CV Download Initiated (Mock File: work/cv.pdf)'); return false;">CV</a>
+      <a href="#" onclick="openModal(); return false;">CV</a>
     </nav>
   </header>
 
@@ -320,7 +409,14 @@
       <p>I extracted the XML configuration file and wrote a log preparation script to trace active routing connections. I identified and purged 42 duplicate or inactive firewall rules to clear the state tracking workload. I decided to block all direct public database access ports, replacing them with restricted IPSec VPN routing paths. I limited firewall GUI administration access exclusively to a secure local management VLAN, locking down public WAN facing interfaces.</p>
       
       <h3>XML Configuration Conflict (Pruned)</h3>
-      <pre>&lt;filter&gt;
+      <div class="terminal-container">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">pfSense XML Config</span>
+        </div>
+        <pre>&lt;filter&gt;
   &lt;!-- Rule 10: PASS WAN Web Traffic --&gt;
   &lt;rule&gt;
     &lt;interface&gt;wan&lt;/interface&gt;
@@ -334,6 +430,7 @@
     &lt;destination&gt;&lt;address&gt;192.168.1.100&lt;/address&gt;&lt;port&gt;80&lt;/port&gt;&lt;/destination&gt;
   &lt;/rule&gt;
 &lt;/filter&gt;</pre>
+      </div>
     </section>
 
     <!-- Beat 3: What Came of It -->
@@ -342,7 +439,14 @@
       <p>Max state table usage dropped by 35% during peak hours (from 42,000 states to 27,300). Average firewall memory consumption fell by 18%. An external nmap vulnerability scan verified zero unintended ports were open to the public internet.</p>
       
       <h3>Vulnerability Verification Scan Logs</h3>
-      <pre>$ nmap -sS -p 80,22,5432 192.168.1.100
+      <div class="terminal-container">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">WAN nmap Scan Log</span>
+        </div>
+        <pre>$ nmap -sS -p 80,22,5432 192.168.1.100
 Starting Nmap 7.92 ( https://nmap.org )
 Nmap scan report for client-boundary.local (192.168.1.100)
 Host is up (0.015s latency).
@@ -353,6 +457,7 @@ PORT     STATE  SERVICE
 5432/tcp closed postgresql
 
 Nmap done: 1 IP address (1 host up) scanned in 0.22 seconds</pre>
+      </div>
       
       <h3>Pruned Rules Summary</h3>
       <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 20px 0; border: 1px solid #e6e4df; border-radius: 6px;">
@@ -367,22 +472,22 @@ Nmap done: 1 IP address (1 host up) scanned in 0.22 seconds</pre>
           </thead>
           <tbody>
             <tr>
-              <td>**Rule 11**</td>
-              <td>Duplicate</td>
+              <td><code style="background-color: #f5f4f0; padding: 3px 6px; border-radius: 4px; font-weight: 600; font-family: monospace;">Rule 11</code></td>
+              <td><span style="background-color: #f0f0ed; color: #555; padding: 4px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Duplicate</span></td>
               <td>Identical destination to Rule 10.</td>
-              <td>Saved state-table lookups.</td>
+              <td style="font-weight: 500; color: #2e7d32;">Saved state-table lookups.</td>
             </tr>
             <tr>
-              <td>**Rule 16**</td>
-              <td>Conflicting</td>
+              <td><code style="background-color: #f5f4f0; padding: 3px 6px; border-radius: 4px; font-weight: 600; font-family: monospace;">Rule 16</code></td>
+              <td><span style="background-color: #fdf3eb; color: #cc785c; padding: 4px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Conflicting</span></td>
               <td>Override by Rule 15 block.</td>
-              <td>Eliminated ruleset confusion.</td>
+              <td style="font-weight: 500; color: #2e7d32;">Eliminated ruleset confusion.</td>
             </tr>
             <tr>
-              <td>**Rule 40**</td>
-              <td>Security Risk</td>
+              <td><code style="background-color: #f5f4f0; padding: 3px 6px; border-radius: 4px; font-weight: 600; font-family: monospace;">Rule 40</code></td>
+              <td><span style="background-color: #fdebee; color: #c94c4c; padding: 4px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Security Risk</span></td>
               <td>Public exposure of database port.</td>
-              <td>Prevented brute-force threats.</td>
+              <td style="font-weight: 500; color: #2e7d32;">Prevented brute-force threats.</td>
             </tr>
           </tbody>
         </table>
@@ -404,6 +509,35 @@ Nmap done: 1 IP address (1 host up) scanned in 0.22 seconds</pre>
     <span>&copy; 2026 OmniTech. All rights reserved. Built with Vanilla HTML/CSS.</span>
     <span>Zero-Trust Security Focus</span>
   </footer>
+
+  <!-- Modal for CV Download -->
+  <div id="cvModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h3 style="font-family: 'Outfit', sans-serif; margin: 0; font-size: 1.3rem; color: #cc785c;">Download Curriculum Vitae</h3>
+      <p style="margin: 0; color: #555; font-size: 0.95rem; line-height: 1.5;">The requested document <strong>OmniTech_CV.pdf</strong> is ready for review. Download the profile to view full systems and network routing credentials.</p>
+      <div style="display: flex; gap: 12px; margin-top: 8px;">
+        <a href="work/dns_walkthrough.md" download="OmniTech_CV.pdf" class="btn" style="flex: 1; text-align: center; font-size: 0.9rem; align-self: auto;">Download PDF</a>
+        <button class="btn btn-secondary" onclick="closeModal()" style="flex: 1; font-size: 0.9rem; padding: 11px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('cvModal').style.display = 'flex';
+    }
+    function closeModal() {
+      document.getElementById('cvModal').style.display = 'none';
+    }
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      var modal = document.getElementById('cvModal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
 
 </body>
 </html>

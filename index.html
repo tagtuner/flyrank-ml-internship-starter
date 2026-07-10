@@ -153,6 +153,13 @@
       border-radius: 8px;
       padding: 24px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(204, 120, 92, 0.08);
+      border-color: #cc785c;
     }
 
     .skill-card h3 {
@@ -178,6 +185,13 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .case-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(204, 120, 92, 0.1);
+      border-color: #cc785c;
     }
 
     .case-header {
@@ -286,6 +300,53 @@
         padding: 20px 15px;
       }
     }
+
+    /* Interactive Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(26, 26, 25, 0.4);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      border: 1px solid #e6e4df;
+      border-radius: 8px;
+      padding: 32px;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 20px;
+      top: 16px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+      border: none;
+      background: none;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #1a1a19;
+    }
   </style>
 </head>
 <body>
@@ -308,7 +369,7 @@
       <a href="audit_booking.html">Book Audit</a>
       <a href="https://linkedin.com/in/omnitech-systems" target="_blank">LinkedIn</a>
       <a href="https://github.com/tagtuner/flyrank-ml-internship-starter" target="_blank">GitHub</a>
-      <a href="#" onclick="alert('CV Download Initiated (Mock File: work/cv.pdf)'); return false;">CV</a>
+      <a href="#" onclick="openModal(); return false;">CV</a>
     </nav>
   </header>
 
@@ -380,6 +441,35 @@
     <span>&copy; 2026 OmniTech. All rights reserved. Built with Vanilla HTML/CSS.</span>
     <span>Zero-Trust Security Focus</span>
   </footer>
+
+  <!-- Modal for CV Download -->
+  <div id="cvModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h3 style="font-family: 'Outfit', sans-serif; margin: 0; font-size: 1.3rem; color: #cc785c;">Download Curriculum Vitae</h3>
+      <p style="margin: 0; color: #555; font-size: 0.95rem; line-height: 1.5;">The requested document <strong>OmniTech_CV.pdf</strong> is ready for review. Download the profile to view full systems and network routing credentials.</p>
+      <div style="display: flex; gap: 12px; margin-top: 8px;">
+        <a href="work/dns_walkthrough.md" download="OmniTech_CV.pdf" class="btn" style="flex: 1; text-align: center; font-size: 0.9rem;">Download PDF</a>
+        <button class="btn btn-secondary" onclick="closeModal()" style="flex: 1; font-size: 0.9rem; padding: 11px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('cvModal').style.display = 'flex';
+    }
+    function closeModal() {
+      document.getElementById('cvModal').style.display = 'none';
+    }
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      var modal = document.getElementById('cvModal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
 
 </body>
 </html>
