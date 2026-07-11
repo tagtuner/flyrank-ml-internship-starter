@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//OmniTech SecOps//NONSGML Calendar Event//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:voip-secops-reminder-2026-07-11
+DTSTAMP:20260711T093000Z
+DTSTART:20260801T090000
+DTEND:20260801T100000
+SUMMARY:Build & Document VoIP SecOps Case Study on Portfolio
+DESCRIPTION:Time to write, implement, and document the Asterisk/FreePBX Fail2Ban log monitoring case study (VoIP SecOps) on the OmniTech Zero-Trust portfolio site. Follow steps in work/next_case_study_plan.md.
+LOCATION:OmniTech Workspace
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

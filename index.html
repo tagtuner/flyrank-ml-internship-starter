@@ -426,12 +426,14 @@
     </section>
 
     <!-- Case Studies Preview -->
-    <section>
+    <section style="display: flex; flex-direction: column; gap: 24px;">
       <div class="section-title">Featured Work</div>
+      
+      <!-- Current Case Study -->
       <div class="case-card">
         <div class="case-header">
           <h3 class="case-title">Hardening &amp; Optimizing a Production PfSense Ruleset</h3>
-          <span style="font-size: 0.8rem; background-color: #f5f4f0; padding: 4px 10px; border-radius: 4px; font-weight: 500;">Zero-Trust Architecture</span>
+          <span style="font-size: 0.8rem; background-color: #f5f4f0; padding: 4px 10px; border-radius: 4px; font-weight: 500; color: #1a1a19;">Zero-Trust Architecture</span>
         </div>
         <p style="margin: 0; color: #555; line-height: 1.6;">How I audited a multi-site Managed Service Provider's ruleset, pruned 42 redundant entries, and resolved persistent CPU/latency lag on their client boundaries.</p>
         
@@ -452,6 +454,34 @@
 
         <div>
           <a href="pfsense_audit.html" class="btn btn-secondary">Read Full Case Study</a>
+        </div>
+      </div>
+
+      <!-- Upcoming Case Study Placeholder -->
+      <div class="case-card" style="border-style: dashed; opacity: 0.85;">
+        <div class="case-header">
+          <h3 class="case-title" style="color: #777;">VoIP SecOps: Hardening Asterisk SIP Server</h3>
+          <span style="font-size: 0.8rem; background-color: #f5f4f0; padding: 4px 10px; border-radius: 4px; font-weight: 500; color: #777;">VoIP &amp; Intrusion Defense</span>
+        </div>
+        <p style="margin: 0; color: #777; line-height: 1.6;">Restricting WAN registration paths, implementing Fail2Ban security regex triggers, and deploying an automated edge API firewall block daemon. **(Scheduled Next Case Study)**</p>
+        
+        <div class="metrics-row" style="filter: grayscale(1); opacity: 0.5;">
+          <div class="metric-item">
+            <span class="metric-value" style="color: #777;">100%</span>
+            <span class="metric-label">Scan Blocks</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value" style="color: #777;">0</span>
+            <span class="metric-label">CPU Overhead</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value" style="color: #777;">$0</span>
+            <span class="metric-label">Toll Fraud Risk</span>
+          </div>
+        </div>
+
+        <div>
+          <a href="work/next_case_study_plan.md" class="btn btn-secondary" style="color: #777; border-color: #ccc; cursor: help;">Review Case Plan (Aug 1, 2026)</a>
         </div>
       </div>
     </section>
